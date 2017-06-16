@@ -43,6 +43,7 @@ sudo apt-get install -f
 # -------------------------- Instalando odoo --------------------------- 
 echo "${VERDE}[+]${NC} Instalando postgresql"
 sudo apt-get install -y postgresql postgresql-contrib
+sudo apt-get install -y postgresql-server-dev-9.5
 
 echo "${VERDE}[+]${NC} Creando usuario de postgreSQL"
 sudo su - postgres -c "createuser -s $USER"
