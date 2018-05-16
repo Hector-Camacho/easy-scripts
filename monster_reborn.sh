@@ -49,7 +49,7 @@ echo "${VERDE}[+][+][+][+][+][+][+]${NC} Creando usuario de postgreSQL ${VERDE}[
 sudo su - postgres -c "createuser -s $USER"
 
 echo "${VERDE}[+][+][+][+][+][+][+]${NC} Instalando requerimientos de odoo ${VERDE}[+][+][+][+][+][+][+]${NC}"
-sudo apt-get install libxml2-dev libxslt-dev libevent-dev libsasl2-dev libldap2-dev
+sudo apt-get install python-dev libxml2-dev libxslt-dev libevent-dev libsasl2-dev libldap2-dev
 sudo apt-get install -y npm
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g less
