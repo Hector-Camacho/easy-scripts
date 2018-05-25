@@ -70,15 +70,39 @@ def dnslookup(host):
     pns = fetch(ns)
     print pns
 
+def page_links(sitio):
+    print 'Comenzando a escanear las URL de la pagina: ' + host
+    ns = "https://api.hackertarget.com/pagelinks/?q=" + host    
+    res = fetch(ns)
+    print res
+ 
+def test_ping(sitio):
+    print 'Comenzando el testeo de los ping de: ' + host
+    ns = "https://api.hackertarget.com/nping/?q=" + host
+    res = fetch(ns)
+    print res
+    
+
+def tracerouter(sitio):
+    print '\n\033[92m[+]\033[0Realizando tracer route sobre: ' + host  
+    ns = "https://api.hackertarget.com/mtr/?q=" + host
+    res = fetch(ns)
+    print res
+
+
 def comenzar_escaneo(sitios):
     "Comienza el escaneo completo de los sitios ingresados"
     for host in sitios:
-        scannmap(host)
+       #scannmap(host)
         whois(host)
         dnslookup(host)
+	tracerouter(host)
+        test_ping(host)
+        page_links(sitio)
+                
 
 def banner():
-    print '\033[92m /$$$$       /$$$$\033[0m       /$$$$$$$            /$$                          \033[92m/$$$$       /$$$$\033[0m'
+    print '\033[92m/$$$$       /$$$$\033[0m       /$$$$$$$            | $$                          \033[92m /$$$$       /$$$$\033[0m'
     print '\033[92m| $$_/  /$$ |_  $$\033[0m      | $$__  $$          | $$                          \033[92m| $$_/  /$$ |_  $$\033[0m'
     print '\033[92m| $$   | $$   | $$\033[0m      | $$  \ $$  /$$$$$$ | $$  /$$$$$$  /$$   /$$      \033[92m| $$   | $$   | $$\033[0m'
     print '\033[92m| $$ /$$$$$$$$| $$\033[0m      | $$$$$$$/ /$$__  $$| $$ |____  $$|  $$ /$$/      \033[92m| $$ /$$$$$$$$| $$\033[0m'
