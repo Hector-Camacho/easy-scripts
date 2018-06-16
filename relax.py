@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import sys
 import nmap
 
@@ -45,7 +46,7 @@ def fetch(url, decoding='utf-8'):
 
 def scannmap(host):
     "Realiza el escaneo del host con nmap"
-    print '\033[92m[+]  \033[0mComenzando escaneo con Nmap de: ' + host + '\033[92m[+]\033[0m'
+    print '\033[92m[+]\033[0mComenzando escaneo con Nmap de: ' + host + '\033[92m[+]\033[0m'
     scan = nmap.PortScanner()
     scan.scan(host)
     for host in scan.all_hosts():
@@ -58,7 +59,6 @@ def scannmap(host):
             lport = scan[host][proto].keys()
             lport.sort()
             for port in lport:
-                print 'Puerto : %s\tEstado : %s\tUtilizado para: %state - %s' % (port, scan[host][proto][port]['state'], scan[host][proto][port]['product'], scan[host][proto][port]['version'])
                 documento.add_paragraph('Puerto : %s\tEstado : %s\tUtilizado para: %state - %s' % (port, scan[host][proto][port]['state'], scan[host][proto][port]['product'], scan[host][proto][port]['version']))
 
 def whois(host):
@@ -97,17 +97,50 @@ def tracerouter(host):
 def comenzar_escaneo(sitios):
     "Comienza el escaneo completo de los sitios ingresados"
     for host in sitios:
-        documento.add_heading("Resultados del analisis con NMAP")
+        documento.add_heading('Analisis sobre ' + host, 0)
+        
+        documento.add_heading('Parte legal:',level=2)
+        documento.add_paragraph('Todos los derechos reservados').bold = True
+        documento.add_paragraph(
+        'Este documento contiene informacion confidencial. Este documento es de uso ' +
+        'exclusivo para la empresa ' + host + '. El uso inautorizado o reproduccion de este ' +
+        'documento esta estrictamente prohibido. Este pentesting ha sido manejado por ' +
+        'expertos en seguridad. El equipo asegura que las ' +
+        'vulnerabilidades encontradas y escritas en este reportes son totalmente ' +
+        'verdaderas y se pueden verificar via internet. Este reporte de pentesting muestra ' +
+        'todas las vulnerabilidades conocidas de '+host+' a la fecha del analisis. A medida que ' +
+        'nuevas vulneravilidades sean liberadas o encontrar posibles amenazas a la ' +
+        'seguridad del sistema es sugerido que las asesorias de seguridad y las pruebas ' +
+        'de pentesting se realizen dentro de un intervalo de 3 a 6 meses.')
+        
+        documento.add_heading('Detalles del documento', level=2)
+        table = documento.add_table(rows = 1, cols = 2)
+        row_cells = table.add_row().cells
+        row_cells[0].text = 'Tipo de documento'
+        row_cells[1].text = 'Reporte de analisis de vulnerabilidades'
+
+        documento.add_heading('Resumen ejecutivo', level=2)
+        documento.add_paragraph(host + ' contrato a un equipo de seguridad con el fin de realizar un test de pentesting ' +
+            'cuyo objetivo es determinar su debilidad en contra de un intento de ataque ' +
+            'informatico. Todas las actividades fueron manejadas de manera que se simulo ' +
+            'un ataque a cargo de un actor maligno en contra de la aplicacion de ' + host)
+
+        documento.add_paragraph('La simulacion sobre el ataque unicamente llego hasta la etapa de analisis de ' +
+                'informacion, los ataques y analisis encontrados durante el test de penetracion ' +
+                'se encontraron con el nivel de acceso con el que cualquier usuario general de ' +
+                'internet pudiera contar')
+
+        documento.add_heading("Resultados del analisis con NMAP", level=1)
         scannmap(host)
-        documento.add_heading("Resultados del analisis con WHOIS")
+        documento.add_heading("Resultados del analisis con WHOIS", level=1)
         whois(host)
-        documento.add_heading("Resultados del analisis con DNSLOOKUP")
+        documento.add_heading("Resultados del analisis con DNSLOOKUP", level=1)
         dnslookup(host)
-        documento.add_heading("Resultados del analisis con TRACEROUTER")
+        documento.add_heading("Resultados del analisis con TRACEROUTER", level=1)
         tracerouter(host)
-        documento.add_heading("Resultados del analisis con TEST PING")
+        documento.add_heading("Resultados del analisis con TEST PING", level=1)
         test_ping(host)
-        documento.add_heading("Resultados del analisis con PAGE LINKS")
+        documento.add_heading("Resultados del analisis con PAGE LINKS", level=1)
         page_links(host)
         documento.save('Analisis - '+ host + '.docx')
 
